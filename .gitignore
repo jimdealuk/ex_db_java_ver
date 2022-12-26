@@ -77,3 +77,4 @@
 /.metadata/.plugins/org.eclipse.ui.workbench/workingsets.xml
 /ex_db/.settings/org.eclipse.core.resources.prefs
 /ex_db/.settings/org.eclipse.jdt.core.prefs
+/.metadata/*
