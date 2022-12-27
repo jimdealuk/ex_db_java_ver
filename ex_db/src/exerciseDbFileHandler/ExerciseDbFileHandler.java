@@ -2,13 +2,26 @@ package exerciseDbFileHandler;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.util.*;
 
 import exerciseDbHandlerBase.ExerciseDbHandlerBase;
 import exerciseDbCoreData.ExerciseDbCoreData;
+import exerciseDbCoreData.ExerciseDbCoreData.BaseEx;
 
 
 
 public class ExerciseDbFileHandler implements ExerciseDbHandlerBase{
+	
+	private Vector<BaseEx> exDb;
+	private Vector<String> tagsDb;
+	
+	
+	public ExerciseDbFileHandler()
+	{
+		exDb = new Vector<BaseEx>();
+		tagsDb = new Vector<String>();
+	}
+	
 
 	@Override
 	public boolean ReadExDb() {
@@ -46,30 +59,45 @@ public class ExerciseDbFileHandler implements ExerciseDbHandlerBase{
 						String fst = String.valueOf(line.charAt(0));
 						if( fst.contains(exerciseDbCoreData.ExerciseDbCoreData.sepIn))
 						{
+							
+							BaseEx exercise = new BaseEx();
+							
 							int sep = line.indexOf(exerciseDbCoreData.ExerciseDbCoreData.exSep);
 							String exName = line.substring(1, sep);
 							System.out.println(exName);
+							
+							exercise.exName = exName;
 							
 							String tgs = line.substring(sep+1,line.length());							
 							
 							sep = tgs.indexOf(exerciseDbCoreData.ExerciseDbCoreData.tagSep);
 							
+							Vector<String> tagVec = new Vector();
 							while(sep>0)
 							{
 								String ex = tgs.substring(0,sep);
 								System.out.println(ex);
+								
+								tagVec.add(ex);
+								
 								tgs = tgs.substring(sep + 1, tgs.length());									
 								sep = tgs.indexOf(exerciseDbCoreData.ExerciseDbCoreData.tagSep);								
 							}
+							exercise.exTags = tagVec;
 							
 							sep = tgs.indexOf(exerciseDbCoreData.ExerciseDbCoreData.sepOut);
 							tgs = tgs.substring(0, sep);									
-							System.out.println(tgs);						
+							System.out.println(tgs);	
+							
+							exDb.add(exercise);
 						}
 						// read next line
 						line = reader.readLine();
-					}															
-					System.out.println("got exercises");
+					}				
+					
+					System.out.println("got exercises");					
+					exDb.forEach((n) -> System.out.println(n.exName));
+					
 				}				
 				
 				if(line.contains(exerciseDbCoreData.ExerciseDbCoreData.tagTags))
@@ -86,10 +114,12 @@ public class ExerciseDbFileHandler implements ExerciseDbHandlerBase{
 						}
 						
 						System.out.println(line);
+						tagsDb.add(line);
 						// read next line
 						line = reader.readLine();
 					}					
 					System.out.println("got tags");										
+					tagsDb.forEach((n) -> System.out.println(n));
 				}
 				
 				if(line.contains(exerciseDbCoreData.ExerciseDbCoreData.workoutTags))

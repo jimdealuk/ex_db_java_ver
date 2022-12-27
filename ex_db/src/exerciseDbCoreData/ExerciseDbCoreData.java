@@ -34,10 +34,10 @@ public final class ExerciseDbCoreData {
 	private ExerciseDbCoreData() {        
     }
 
-	public final class BaseEx
+	public static class BaseEx
     {
-        String exName;
-        Vector exTags;
+        public String exName;
+        public Vector exTags;
     };
 	
 	
