@@ -1,5 +1,7 @@
 package exerciseDbCoreData;
 
+import java.util.*;
+
 public final class ExerciseDbCoreData {
 
 	public static final String filePath = "../exercisedb/" ;
@@ -32,4 +34,11 @@ public final class ExerciseDbCoreData {
 	private ExerciseDbCoreData() {        
     }
 
+	public final class BaseEx
+    {
+        String exName;
+        Vector exTags;
+    };
+	
+	
 }

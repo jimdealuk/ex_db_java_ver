@@ -78,3 +78,4 @@
 /ex_db/.settings/org.eclipse.core.resources.prefs
 /ex_db/.settings/org.eclipse.jdt.core.prefs
 /.metadata/*
+/ex_db/bin/exerciseDbCoreData/ExerciseDbCoreData$BaseEx.class
