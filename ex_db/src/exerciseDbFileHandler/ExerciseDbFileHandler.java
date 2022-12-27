@@ -64,7 +64,7 @@ public class ExerciseDbFileHandler implements ExerciseDbHandlerBase{
 							
 							int sep = line.indexOf(exerciseDbCoreData.ExerciseDbCoreData.exSep);
 							String exName = line.substring(1, sep);
-							System.out.println(exName);
+//							System.out.println(exName);
 							
 							exercise.exName = exName;
 							
@@ -76,7 +76,7 @@ public class ExerciseDbFileHandler implements ExerciseDbHandlerBase{
 							while(sep>0)
 							{
 								String ex = tgs.substring(0,sep);
-								System.out.println(ex);
+//								System.out.println(ex);
 								
 								tagVec.add(ex);
 								
@@ -87,7 +87,7 @@ public class ExerciseDbFileHandler implements ExerciseDbHandlerBase{
 							
 							sep = tgs.indexOf(exerciseDbCoreData.ExerciseDbCoreData.sepOut);
 							tgs = tgs.substring(0, sep);									
-							System.out.println(tgs);	
+//							System.out.println(tgs);	
 							
 							exDb.add(exercise);
 						}
@@ -113,7 +113,7 @@ public class ExerciseDbFileHandler implements ExerciseDbHandlerBase{
 							line = line.substring(0, line.length()-1);																
 						}
 						
-						System.out.println(line);
+//						System.out.println(line);
 						tagsDb.add(line);
 						// read next line
 						line = reader.readLine();
@@ -134,16 +134,16 @@ public class ExerciseDbFileHandler implements ExerciseDbHandlerBase{
 
 					while (!line.contains(exerciseDbCoreData.ExerciseDbCoreData.dataOut)) 
 					{
-						System.out.println(line);
+//						System.out.println(line);
 						int endName = line.indexOf(exerciseDbCoreData.ExerciseDbCoreData.exSep);
 						if(endName > 1)
 						{
 							String name = line.substring(1,endName);
-							System.out.println(name);
+//							System.out.println(name);
 
 							int endSectionTag = line.indexOf(exerciseDbCoreData.ExerciseDbCoreData.sectionTags);
 							line = line.substring(endSectionTag+8, line.length()-1);																
-							System.out.println(line);
+//							System.out.println(line);
 
 							int endSection = line.indexOf(exerciseDbCoreData.ExerciseDbCoreData.exOut);
 
@@ -151,14 +151,14 @@ public class ExerciseDbFileHandler implements ExerciseDbHandlerBase{
 							{
 								
 								String section = line.substring(1,endSection);
-								System.out.println(section);
+//								System.out.println(section);
 								
 								int endSectionName = section.indexOf(exerciseDbCoreData.ExerciseDbCoreData.exSep);
 								String sectionName = section.substring(0,endSectionName);
-								System.out.println(sectionName);
+//								System.out.println(sectionName);
 
 								section = section.substring(endSectionName+1,section.length());
-								System.out.println(section);
+//								System.out.println(section);
 								
 								int exBegin = section.indexOf(exerciseDbCoreData.ExerciseDbCoreData.sepIn);
 								int exEnd = section.indexOf(exerciseDbCoreData.ExerciseDbCoreData.sepOut);
@@ -167,7 +167,7 @@ public class ExerciseDbFileHandler implements ExerciseDbHandlerBase{
 								{
 									
 									String ex = section.substring(exBegin+1,exEnd);
-									System.out.println(ex);
+//									System.out.println(ex);
 
 									section = section.substring(exEnd+1,section.length());
 									
