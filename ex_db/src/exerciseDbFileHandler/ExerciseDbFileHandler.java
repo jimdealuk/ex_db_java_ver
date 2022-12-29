@@ -25,7 +25,7 @@ public class ExerciseDbFileHandler implements ExerciseDbHandlerBase{
 
 	@Override
 	public boolean ReadExDb() {
-		// TODO Auto-generated method stub
+
 		boolean ret = false;
 		
 		File file = new File(exerciseDbCoreData.ExerciseDbCoreData.filePath);
@@ -193,6 +193,8 @@ public class ExerciseDbFileHandler implements ExerciseDbHandlerBase{
 			}
 			
 			reader.close();
+			ret = true;
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}		
@@ -201,15 +203,68 @@ public class ExerciseDbFileHandler implements ExerciseDbHandlerBase{
 		return ret;
 	}
 
-	private String String(char charAt) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	@Override
 	public boolean WriteExDb() {
-		// TODO Auto-generated method stub
-		return false;
+		
+		boolean ret = false;
+
+		File file = new File(exerciseDbCoreData.ExerciseDbCoreData.filePath);
+		
+		if(!file.exists())
+		{
+			try 
+			{
+				file.createNewFile();
+			} catch (IOException e) 
+			{
+				// not there - can't create it..
+				return false;
+			}
+		}
+
+		BufferedWriter writer;
+
+		try {
+			writer = new BufferedWriter(new FileWriter(exerciseDbCoreData.ExerciseDbCoreData.tempfile));
+			
+			
+			writer.write(exerciseDbCoreData.ExerciseDbCoreData.dataIn);
+			writer.write(exerciseDbCoreData.ExerciseDbCoreData.lineSep);
+			writer.write(exerciseDbCoreData.ExerciseDbCoreData.tagBase);
+			writer.write(exerciseDbCoreData.ExerciseDbCoreData.lineSep);
+
+			writer.write(exerciseDbCoreData.ExerciseDbCoreData.dataOut);
+
+
+			writer.write(exerciseDbCoreData.ExerciseDbCoreData.lineSep);
+
+			
+			writer.write(exerciseDbCoreData.ExerciseDbCoreData.dataIn);
+			writer.write(exerciseDbCoreData.ExerciseDbCoreData.lineSep);
+			writer.write(exerciseDbCoreData.ExerciseDbCoreData.tagTags);
+			writer.write(exerciseDbCoreData.ExerciseDbCoreData.lineSep);
+
+			tagsDb.forEach((n) -> {
+				try {
+					writer.write(n);
+					writer.write(exerciseDbCoreData.ExerciseDbCoreData.lineSep);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
+			
+			writer.write(exerciseDbCoreData.ExerciseDbCoreData.dataOut);
+
+			
+			writer.close();
+			ret = true;			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
+		
+		return ret;
 	}
 
 }

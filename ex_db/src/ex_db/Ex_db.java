@@ -10,6 +10,9 @@ public class Ex_db {
 		exerciseDbFileHandler.ExerciseDbFileHandler ex_db = new exerciseDbFileHandler.ExerciseDbFileHandler();
 
 		ex_db.ReadExDb();
+		
+		
+		ex_db.WriteExDb();
 	}
 
 }
