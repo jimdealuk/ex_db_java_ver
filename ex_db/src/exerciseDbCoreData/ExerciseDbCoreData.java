@@ -37,7 +37,7 @@ public final class ExerciseDbCoreData {
 	public static class BaseEx
     {
         public String exName;
-        public Vector exTags;
+        public Vector<String> exTags;
     };
 	
 	

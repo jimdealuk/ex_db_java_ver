@@ -72,17 +72,34 @@ public class ExerciseDbFileHandler implements ExerciseDbHandlerBase{
 							
 							sep = tgs.indexOf(exerciseDbCoreData.ExerciseDbCoreData.tagSep);
 							
+							int endBrkt = tgs.indexOf(exerciseDbCoreData.ExerciseDbCoreData.sepOut);
 							Vector<String> tagVec = new Vector();
-							while(sep>0)
+							String ex;
+
+							if(sep<0)
 							{
-								String ex = tgs.substring(0,sep);
-//								System.out.println(ex);
-								
+								ex = tgs.substring(0,endBrkt);
 								tagVec.add(ex);
 								
-								tgs = tgs.substring(sep + 1, tgs.length());									
-								sep = tgs.indexOf(exerciseDbCoreData.ExerciseDbCoreData.tagSep);								
 							}
+							else
+							{
+								while(sep>0)
+								{
+									ex = tgs.substring(0,sep);
+//									System.out.println(ex);
+									
+									tagVec.add(ex);
+									
+									tgs = tgs.substring(sep + 1, tgs.length());									
+									sep = tgs.indexOf(exerciseDbCoreData.ExerciseDbCoreData.tagSep);								
+								}
+								endBrkt = tgs.indexOf(exerciseDbCoreData.ExerciseDbCoreData.sepOut);
+								ex = tgs.substring(0,endBrkt);
+								tagVec.add(ex);
+								
+							}
+														
 							exercise.exTags = tagVec;
 							
 							sep = tgs.indexOf(exerciseDbCoreData.ExerciseDbCoreData.sepOut);
@@ -208,6 +225,8 @@ public class ExerciseDbFileHandler implements ExerciseDbHandlerBase{
 		
 		boolean ret = false;
 
+		System.out.println("write db");										
+				
 		File file = new File(exerciseDbCoreData.ExerciseDbCoreData.filePath);
 		
 		if(!file.exists())
@@ -227,38 +246,76 @@ public class ExerciseDbFileHandler implements ExerciseDbHandlerBase{
 		try {
 			writer = new BufferedWriter(new FileWriter(exerciseDbCoreData.ExerciseDbCoreData.tempfile));
 			
-			
+			// write exercises
 			writer.write(exerciseDbCoreData.ExerciseDbCoreData.dataIn);
 			writer.write(exerciseDbCoreData.ExerciseDbCoreData.lineSep);
 			writer.write(exerciseDbCoreData.ExerciseDbCoreData.tagBase);
 			writer.write(exerciseDbCoreData.ExerciseDbCoreData.lineSep);
 
+			System.out.println("write ex db");										
+
+			exDb.forEach((n) ->{ 
+					String name = n.exName;
+					try {
+						writer.write(exerciseDbCoreData.ExerciseDbCoreData.sepIn);
+						writer.write(name);
+						System.out.println(name);
+						writer.write(exerciseDbCoreData.ExerciseDbCoreData.exSep);
+						
+						Vector<String> tags = n.exTags;
+						int numTags = tags.size();
+						
+						for(int i = numTags-1; i >=0; i--)
+						{
+							System.out.println(tags.elementAt(i));										
+							writer.write(tags.elementAt(i));
+							if(i>=1)
+							{
+								writer.write(exerciseDbCoreData.ExerciseDbCoreData.tagSep);
+							}							
+						}
+						
+						writer.write(exerciseDbCoreData.ExerciseDbCoreData.sepOut);
+						writer.write(exerciseDbCoreData.ExerciseDbCoreData.lineSep);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+			});
+						
 			writer.write(exerciseDbCoreData.ExerciseDbCoreData.dataOut);
-
-
 			writer.write(exerciseDbCoreData.ExerciseDbCoreData.lineSep);
-
 			
+			// write tags
 			writer.write(exerciseDbCoreData.ExerciseDbCoreData.dataIn);
 			writer.write(exerciseDbCoreData.ExerciseDbCoreData.lineSep);
 			writer.write(exerciseDbCoreData.ExerciseDbCoreData.tagTags);
 			writer.write(exerciseDbCoreData.ExerciseDbCoreData.lineSep);
 
-			tagsDb.forEach((n) -> {
-				try {
-					writer.write(n);
-					writer.write(exerciseDbCoreData.ExerciseDbCoreData.lineSep);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			});
+			System.out.println("write tags");
+						
+			int numTagsDb = tagsDb.size();
 			
+			for(int i = numTagsDb-1; i >=0; i--)
+			{
+				System.out.println(tagsDb.elementAt(i));										
+				writer.write(tagsDb.elementAt(i));
+				if(i>=1)
+				{
+					writer.write(exerciseDbCoreData.ExerciseDbCoreData.tagSep);
+					writer.write(exerciseDbCoreData.ExerciseDbCoreData.lineSep);
+				}
+				
+			}
+			writer.write(exerciseDbCoreData.ExerciseDbCoreData.lineSep);						
 			writer.write(exerciseDbCoreData.ExerciseDbCoreData.dataOut);
-
 			
 			writer.close();
-			ret = true;			
+			ret = true;		
+			
+			System.out.println("finish write");										
+
 			
 		} catch (IOException e) {
 			e.printStackTrace();
